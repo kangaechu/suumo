@@ -1,4 +1,4 @@
-package suumo
+package sumoo
 
 import (
 	"github.com/google/go-cmp/cmp"

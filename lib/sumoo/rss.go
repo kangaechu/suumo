@@ -1,4 +1,4 @@
-package suumo
+package sumoo
 
 import (
 	"github.com/mmcdole/gofeed"

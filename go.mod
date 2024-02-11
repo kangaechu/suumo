@@ -1,4 +1,4 @@
-module github.com/kangaechu/suumo
+module github.com/kangaechu/sumoo
 
 go 1.22.0
 
