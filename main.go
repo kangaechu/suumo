@@ -17,12 +17,12 @@ func main() {
 		panic(err)
 	}
 	bukkens := make([]sumoo.Bukken, len(bukkenRss))
-	for _, b := range bukkenRss {
+	for i, b := range bukkenRss {
 		bukken, err := sumoo.FetchBukken(b.Link)
 		if err != nil {
 			panic(err)
 		}
-		bukkens = append(bukkens, bukken)
+		bukkens[i] = bukken
 	}
 	// jsonとして出力
 	out, err := json.Marshal(bukkens)
