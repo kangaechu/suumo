@@ -2,19 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/kangaechu/suumo/lib/suumo"
+	"github.com/kangaechu/sumoo/lib/sumoo"
 	"os"
 )
 
 func main() {
 	url := os.Getenv("SUUMO_URL")
-	bukkenRss, err := suumo.FetchBukkenRSS(url)
+	bukkenRss, err := sumoo.FetchBukkenRSS(url)
 	if err != nil {
 		return
 	}
-	bukkens := make([]suumo.Bukken, len(bukkenRss))
+	bukkens := make([]sumoo.Bukken, len(bukkenRss))
 	for _, b := range bukkenRss {
-		bukken, err := suumo.FetchBukken(b.Link)
+		bukken, err := sumoo.FetchBukken(b.Link)
 		if err != nil {
 			return
 		}
