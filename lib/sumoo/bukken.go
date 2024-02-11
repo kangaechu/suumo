@@ -4,31 +4,34 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"regexp"
 	"strings"
+	"time"
 )
 import "github.com/gocolly/colly"
 
 type Bukken struct {
-	Name           string // 物件名
-	Link           string // 物件のURL
-	Price          string // 価格
-	Madori         string // 間取り
-	Area           string // 占有面積
-	SouKosuu       string // 総戸数
-	Floor          string // 所在階
-	Kouzou         string // 構造・階建て
-	BuiltAt        string // 完成時期（築年月）
-	Address        string // 住所
-	Access         string // 交通
-	KanriHi        string // 管理費
-	ShuzenHi       string // 修繕積立金
-	HikiwatshiJiki string // 引渡可能時期
-	Muki           string // 向き
-	Kenri          string // 敷地の権利形態
-	Youto          string // 用途地域
-	Parking        string // 駐車場
-	Sekou          string // 施工
-	CreatedAt      string // 登録日
-	UpdatedAt      string // 更新日
+	Name           string `json:"id"`              // 物件名
+	Link           string `json:"link"`            // 物件のURL
+	Price          string `json:"price"`           // 価格
+	Madori         string `json:"madori"`          // 間取り
+	Area           string `json:"area"`            // 占有面積
+	SouKosuu       string `json:"soukosuu"`        // 総戸数
+	Floor          string `json:"floor"`           // 所在階
+	Kouzou         string `json:"kouzou"`          // 構造・階建て
+	BuiltAt        string `json:"built_at"`        // 完成時期（築年月）
+	Address        string `json:"address"`         // 住所
+	Access         string `json:"access"`          // 交通
+	KanriHi        string `json:"kanri_hi"`        // 管理費
+	ShuzenHi       string `json:"shuzen_hi"`       // 修繕積立金
+	HikiwatshiJiki string `json:"hikiwatshiJiki"`  // 引渡可能時期
+	Muki           string `json:"muki"`            // 向き
+	Kenri          string `json:"kenri"`           // 敷地の権利形態
+	Youto          string `json:"youto"`           // 用途地域
+	Parking        string `json:"parking"`         // 駐車場
+	Sekou          string `json:"sekou"`           // 施工
+	ProvidedAt     string `json:"provided_at"`     // 情報提供日
+	NextUpdatedAt  string `json:"next_updated_at"` // 次回更新日
+	CreatedAt      string `json:"created_at"`      // 登録日
+	UpdatedAt      string `json:"updated_at"`      // 更新日
 }
 
 // FetchBukken は物件の情報を取得する
@@ -38,6 +41,7 @@ func FetchBukken(url string) (Bukken, error) {
 
 	bukkenInfo := make(map[string]string)
 	var bukken Bukken
+	now := time.Now()
 	c.OnHTML("body", func(e *colly.HTMLElement) {
 		e.DOM.Find("th").Each(func(i int, k *goquery.Selection) {
 			var key, value string
@@ -75,8 +79,10 @@ func FetchBukken(url string) (Bukken, error) {
 			Youto:          containsInMap(bukkenInfo, "用途地域"),
 			Parking:        containsInMap(bukkenInfo, "駐車場"),
 			Sekou:          containsInMap(bukkenInfo, "施工"),
-			CreatedAt:      containsInMap(bukkenInfo, "情報提供日"),
-			UpdatedAt:      containsInMap(bukkenInfo, "次回更新日"),
+			ProvidedAt:     containsInMap(bukkenInfo, "情報提供日"),
+			NextUpdatedAt:  containsInMap(bukkenInfo, "次回更新日"),
+			CreatedAt:      now.Format("2006-01-02T15:04:05-07:00"),
+			UpdatedAt:      now.Format("2006-01-02T15:04:05-07:00"),
 		}
 	})
 	err := c.Visit(url)
