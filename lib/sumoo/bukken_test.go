@@ -45,8 +45,10 @@ func TestFetchBukken(t *testing.T) {
 				Youto:          "準工業",
 				Parking:        "空無",
 				Sekou:          "株式会社大林組 東京本店",
-				CreatedAt:      "2024年2月10日",
-				UpdatedAt:      "情報提供より８日以内に更新",
+				ProvidedAt:     "2024年2月10日",
+				NextUpdatedAt:  "情報提供より８日以内に更新",
+				CreatedAt:      "2024/02/01T00:00:00+09:00",
+				UpdatedAt:      "2024/02/01T00:00:00+09:00",
 			},
 			wantErr: false,
 		},
@@ -60,6 +62,9 @@ func TestFetchBukken(t *testing.T) {
 			}
 			// モックサーバのportが実行ごとに変わるため、Linkのポート番号を削除して比較
 			got.Link = trimPort(got.Link)
+			// CreatedAt, UpdatedAtは実行ごとに変わるため、固定値に変更
+			got.CreatedAt = "2024/02/01T00:00:00+09:00"
+			got.UpdatedAt = "2024/02/01T00:00:00+09:00"
 
 			if diff := cmp.Diff(got, tt.want); diff != "" {
 				t.Errorf("FetchBukken() is mismatch (-: got, +: want) : %s", diff)
