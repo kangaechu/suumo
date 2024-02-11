@@ -3,9 +3,9 @@ module github.com/kangaechu/suumo
 go 1.22.0
 
 require (
-	github.com/PuerkitoBio/goquery v1.8.0
+	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/gocolly/colly v1.2.0
-	github.com/google/go-cmp v0.5.5
+	github.com/google/go-cmp v0.6.0
 	github.com/mmcdole/gofeed v1.2.1
 )
 
