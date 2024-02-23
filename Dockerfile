@@ -13,10 +13,8 @@ RUN go build -o /app/main -ldflags '-s -w' main.go
 
 FROM gcr.io/distroless/base-debian12
 
-# RUNコマンドが実行できないので、shだけ入れる
-COPY --from=busybox /bin/sh /bin/sh
 COPY --from=busybox /bin/busybox /bin/busybox
-RUN /bin/busybox --install /bin
+RUN ["/bin/busybox", "--install", "/bin"]
 
 USER nonroot:nonroot
 WORKDIR /app
